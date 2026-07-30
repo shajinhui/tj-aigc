@@ -1,0 +1,14 @@
+.idea/
+.vscode/
+.DS_Store
+*.iml
+*.log
+
+target/
+
+.env
+.env.*
+!.env.example
+
+application-private.yml
+application-secret.yml

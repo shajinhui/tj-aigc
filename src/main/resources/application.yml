@@ -1,0 +1,97 @@
+server:
+  port: 8094  #端口
+  tomcat:
+    uri-encoding: UTF-8   #服务编码
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  application:
+    name: aigc-service
+  main:
+    allow-circular-references: true # 允许循环引用
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${TJ_MYSQL_HOST:127.0.0.1}:${TJ_MYSQL_PORT:3306}/${tj.jdbc.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: ${TJ_MYSQL_USERNAME:}
+    password: ${TJ_MYSQL_PASSWORD:}
+  data:
+    redis:
+      host: ${TJ_REDIS_HOST:127.0.0.1}
+      port: ${TJ_REDIS_PORT:6379}
+      password: ${TJ_REDIS_PASSWORD:}
+      client-type: jedis
+    mongodb:
+      host: ${TJ_MONGODB_HOST:127.0.0.1}
+      port: ${TJ_MONGODB_PORT:27017}
+      database: ${TJ_MONGODB_DATABASE:tianji}
+      authentication-database: ${TJ_MONGODB_AUTH_DATABASE:admin}
+      auto-index-creation: true
+  ai:
+    model:
+      chat: deepseek
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY:}
+    deepseek:
+      base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+      api-key: ${DEEPSEEK_API_KEY:}
+      chat:
+        options:
+          model: ${DEEPSEEK_MODEL:deepseek-v4-flash}
+          temperature: ${DEEPSEEK_TEMPERATURE:0.3}
+    vectorstore:
+      redis:
+        initialize-schema: true
+        index-name: tj-aigc-vector-index
+        prefix: "tj-aigc:"
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+tj:
+  swagger:
+    enable: true
+    package-path: com.tianji.aigc.controller
+    title: 天机学堂 - AIGC接口文档
+    description: 该服务包含AI相关功能
+    contact-name: 传智教育·研究院
+    contact-url: http://www.itcast.cn/
+    contact-email: zhangzhijun@itcast.cn
+    version: v1.0
+    enableResponseWrap: true
+  auth:
+    resource:
+      enable: true
+  jdbc:
+    database: tj_aigc #指定使用的数据库名
+  ai:
+    prompt:
+      system:
+        chat:
+          data-id: system-chat-message.txt
+          group: DEFAULT_GROUP
+          timeout-ms: 20000
+          fallback: 你是天机学堂的AI学习助手，请基于已知课程与用户问题提供准确、简洁的帮助。
+        route-agent:
+          data-id: route-agent-system-message.txt
+          fallback: 判断用户意图，并将请求路由到课程推荐或课程购买能力。
+        recommend-agent:
+          data-id: recommend-agent-system-message.txt
+          fallback: 根据用户需求推荐合适的课程，并说明推荐理由。
+        buy-agent:
+          data-id: buy-agent-system-message.txt
+          fallback: 协助用户确认课程购买信息，在执行预下单前核对课程编号。
+        text:
+          data-id: text-system-chat-message.txt
+          fallback: 你是中文写作助手，请准确完成用户的文本处理要求。
+    memory:
+      max: 100
+      type: Redis #对话记忆存储方式，Redis / MYSQL / MongoDB
+    chat-type: ENHANCE # ROUTE / ENHANCE
+    audio-type: DASHSCOPE
+  ali:
+    oss:
+      endpoint: ${OSS_ENDPOINT:oss-cn-shanghai.aliyuncs.com}
+      access-id: ${OSS_ACCESSKEY_ID:}
+      access-key: ${OSS_ACCESSKEY_SECRET:}
+      bucket: ${OSS_BUCKET:itcast-zzj}
+  remote:
+    gateway-url: ${TJ_GATEWAY_URL:http://127.0.0.1:10010}

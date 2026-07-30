@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+      username: ${NACOS_USERNAME:}
+      password: ${NACOS_PASSWORD:}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+        ip: ${AIGC_DISCOVERY_IP:127.0.0.1}
+#logging:
+#  level:
+##    com.tianji: debug
+#    com:
+#      alibaba: debug
+#    org:
+#      springframework:
+#        ai:
+#          chat:
+#            client:
+#              advisor: DEBUG
+#      apache:
+#        hc:
+#          client5:
+#            http:
+#              wire: debug
