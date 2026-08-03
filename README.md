@@ -1,4 +1,4 @@
-# 天机学堂 AIGC 服务
+#  AIGC 服务
 
 基于 Java 17、Spring Boot 3.4.5、Spring AI 和 DeepSeek 构建的独立 AI 微服务。服务提供
 RAG、会话记忆、多 Agent 路由、流式对话和语音交互能力，并通过网关调用天机学堂的课程、
